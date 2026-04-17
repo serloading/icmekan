@@ -1948,6 +1948,16 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
       .filter((item): item is PageLinkItem => Boolean(item));
   }
 
+  if (pageData.location.kind !== "district") {
+    return [];
+  }
+
+  if (pageData.location.city.slug !== "istanbul") {
+    return [];
+  }
+
+  const districtSlug = pageData.location.district.slug;
+
   if (pageData.location.kind === "district" && pageData.location.city.slug === "istanbul") {
     const links: PageLinkItem[] = [
       {
@@ -1957,12 +1967,12 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
     ];
 
     const neighbors =
-      districtNeighbors[pageData.location.district.slug] ??
-      majorIstanbulDistricts.filter((slug) => slug !== pageData.location.district.slug).slice(0, 3);
+      districtNeighbors[districtSlug] ??
+      majorIstanbulDistricts.filter((slug) => slug !== districtSlug).slice(0, 3);
 
     return links.concat(
       neighbors
-        .filter((slug) => slug !== pageData.location.district.slug)
+        .filter((slug) => slug !== districtSlug)
         .map((slug) => toDistrictLink(slug, "alcipanci"))
         .filter((item): item is PageLinkItem => Boolean(item))
     );
