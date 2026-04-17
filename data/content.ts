@@ -1944,7 +1944,7 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
 
   if (pageData.location.kind === "city" && pageData.location.city.slug === "istanbul") {
     return majorIstanbulDistricts
-      .map((slug) => toDistrictLink(slug, "alcipanci"))
+      .map(toDistrictLink)
       .filter((item): item is PageLinkItem => Boolean(item));
   }
 
@@ -1959,9 +1959,9 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
   const currentDistrictSlug = pageData.location.district.slug;
 
   const links: PageLinkItem[] = [
-      {
-        href: "/istanbul-alcipanci",
-        label: "İstanbul Alçıpan Hizmeti"
+    {
+      href: "/istanbul-alcipanci",
+      label: "İstanbul Alçıpan Hizmeti"
     }
   ];
 
@@ -1972,7 +1972,7 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
   return links.concat(
     neighbors
       .filter((slug) => slug !== currentDistrictSlug)
-      .map((slug) => toDistrictLink(slug, "alcipanci"))
+      .map(toDistrictLink)
       .filter((item): item is PageLinkItem => Boolean(item))
   );
 }
