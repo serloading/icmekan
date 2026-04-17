@@ -1944,8 +1944,8 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
 
   if (pageData.location.kind === "city" && pageData.location.city.slug === "istanbul") {
     return majorIstanbulDistricts
-      .map(toDistrictLink)
-      .filter((item): item is PageLinkItem => Boolean(item));
+  .map((slug) => toDistrictLink(slug, "alcipanci"))
+  .filter((item): item is PageLinkItem => Boolean(item));
   }
 
   if (pageData.location.kind !== "district") {
@@ -1971,9 +1971,9 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
 
   return links.concat(
     neighbors
-      .filter((slug) => slug !== currentDistrictSlug)
-      .map(toDistrictLink)
-      .filter((item): item is PageLinkItem => Boolean(item))
+  .filter((slug) => slug !== currentDistrictSlug)
+  .map((slug) => toDistrictLink(slug, "alcipanci"))
+  .filter((item): item is PageLinkItem => Boolean(item))
   );
 }
 
