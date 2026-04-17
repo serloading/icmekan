@@ -1488,7 +1488,7 @@ function getServicePatternKey(pageData: ResolvedPageData) {
 
   if (pageData.location.kind === "city") {
     return pickPattern(
-      {
+    {
         apartment_old: true,
         apartment_new: true,
         office: true,
@@ -1956,29 +1956,25 @@ export function getAreaLinks(pageData: ResolvedPageData): PageLinkItem[] {
     return [];
   }
 
-  const districtSlug = pageData.location.district.slug;
+  const currentDistrictSlug = pageData.location.district.slug;
 
-  if (pageData.location.kind === "district" && pageData.location.city.slug === "istanbul") {
-    const links: PageLinkItem[] = [
+  const links: PageLinkItem[] = [
       {
         href: "/istanbul-alcipanci",
         label: "İstanbul Alçıpan Hizmeti"
-      }
-    ];
+    }
+  ];
 
-    const neighbors =
-      districtNeighbors[districtSlug] ??
-      majorIstanbulDistricts.filter((slug) => slug !== districtSlug).slice(0, 3);
+  const neighbors =
+    districtNeighbors[currentDistrictSlug] ??
+    majorIstanbulDistricts.filter((slug) => slug !== currentDistrictSlug).slice(0, 3);
 
-    return links.concat(
-      neighbors
-        .filter((slug) => slug !== districtSlug)
-        .map((slug) => toDistrictLink(slug, "alcipanci"))
-        .filter((item): item is PageLinkItem => Boolean(item))
-    );
-  }
-
-  return [];
+  return links.concat(
+    neighbors
+      .filter((slug) => slug !== currentDistrictSlug)
+      .map((slug) => toDistrictLink(slug, "alcipanci"))
+      .filter((item): item is PageLinkItem => Boolean(item))
+  );
 }
 
 export function getCtaCopy(pageData: ResolvedPageData) {
