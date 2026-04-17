@@ -12,16 +12,17 @@ type LocationCandidate =
   | { kind: "city"; city: City }
   | { kind: "district"; city: City; district: District };
 
-const districtCandidates: LocationCandidate[] = districts
-  .map((district) => {
+const districtCandidates = districts
+  .map((district): LocationCandidate | null => {
     const city = citiesBySlug.get(district.citySlug);
     if (!city) {
       return null;
     }
 
-    return { kind: "district" as const, city, district };
+    return { kind: "district", city, district };
   })
-  .filter((value): value is LocationCandidate => value !== null)
+  .filter((value): value is Extract<LocationCandidate, { kind: "district" }> => value !== null)
+  .sort((a, b) => b.district.slug.length - a.district.slug.length);
   .sort((a, b) => {
     const aSlug = a.kind === "district" ? a.district.slug : a.city.slug;
     const bSlug = b.kind === "district" ? b.district.slug : b.city.slug;
